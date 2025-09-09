@@ -7,6 +7,7 @@ module.exports = defineConfig({
     port: 8080,
     open: true
   },
+  outputDir: 'docs',
   css: {
     loaderOptions: {
       css: {
