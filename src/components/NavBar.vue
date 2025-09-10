@@ -7,9 +7,9 @@
           <span>GitTaskBench</span>
         </router-link>
       </div>
-      
+
       <div class="nav-menu" :class="{ 'active': isMenuOpen }">
-        <router-link to="/" class="nav-link" @click="closeMenu">
+        <router-link to="/home" class="nav-link" @click="closeMenu">
           <i class="fas fa-home"></i>
           <span>Home</span>
         </router-link>
@@ -17,12 +17,12 @@
           <i class="fas fa-trophy"></i>
           <span>LeaderBoard</span>
         </router-link>
-        <a href="https://github.com/GitTaskBench" target="_blank" class="nav-link" @click="closeMenu">
+        <a href="https://github.com/QuantaAlpha/GitTaskBench" target="_blank" class="nav-link" @click="closeMenu">
           <i class="fab fa-github"></i>
           <span>GitHub</span>
         </a>
       </div>
-      
+
       <div class="nav-toggle" @click="toggleMenu">
         <span class="bar"></span>
         <span class="bar"></span>
@@ -57,11 +57,12 @@ export default {
   top: 0;
   left: 0;
   right: 0;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid #e9ecef;
   z-index: 1000;
   padding: 0 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .nav-container {
@@ -78,7 +79,7 @@ export default {
   align-items: center;
   gap: 12px;
   text-decoration: none;
-  color: white;
+  color: #333;
   font-size: 24px;
   font-weight: 700;
   transition: all 0.3s ease;
@@ -107,7 +108,7 @@ export default {
   align-items: center;
   gap: 8px;
   text-decoration: none;
-  color: rgba(255, 255, 255, 0.8);
+  color: #666;
   font-weight: 500;
   padding: 8px 16px;
   border-radius: 8px;
@@ -116,26 +117,14 @@ export default {
 }
 
 .nav-link:hover {
-  color: white;
-  background: rgba(255, 255, 255, 0.1);
+  color: #333;
+  background: #f8f9fa;
   transform: translateY(-2px);
 }
 
 .nav-link.router-link-active {
-  color: white;
-  background: rgba(255, 255, 255, 0.15);
-}
-
-.nav-link.router-link-active::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 20px;
-  height: 2px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 1px;
+  color: #333;
+  background: #e9ecef;
 }
 
 .nav-toggle {
@@ -148,7 +137,7 @@ export default {
 .bar {
   width: 25px;
   height: 3px;
-  background: white;
+  background: #333;
   border-radius: 2px;
   transition: all 0.3s ease;
 }
@@ -159,7 +148,7 @@ export default {
     top: 70px;
     left: 0;
     right: 0;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
     flex-direction: column;
     padding: 20px;
@@ -168,30 +157,31 @@ export default {
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
-  
+
   .nav-menu.active {
     transform: translateY(0);
     opacity: 1;
     visibility: visible;
   }
-  
+
   .nav-toggle {
     display: flex;
   }
-  
+
   .nav-toggle.active .bar:nth-child(1) {
     transform: rotate(45deg) translate(5px, 5px);
   }
-  
+
   .nav-toggle.active .bar:nth-child(2) {
     opacity: 0;
   }
-  
+
   .nav-toggle.active .bar:nth-child(3) {
     transform: rotate(-45deg) translate(7px, -6px);
   }
-  
+
   .nav-link {
     width: 100%;
     justify-content: center;

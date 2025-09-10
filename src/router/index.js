@@ -5,6 +5,10 @@ import LeaderBoard from '../views/LeaderBoard.vue'
 const routes = [
   {
     path: '/',
+    redirect: '/leaderboard'
+  },
+  {
+    path: '/home',
     name: 'Home',
     component: HomePage
   },

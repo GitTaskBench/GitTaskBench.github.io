@@ -8,19 +8,20 @@
             <span>GitTaskBench</span>
           </div>
           <p class="footer-description">
-            A comprehensive benchmark for evaluating AI code generation capabilities across diverse real-world programming tasks.
+            A comprehensive benchmark for evaluating AI code generation capabilities across diverse real-world
+            programming tasks.
           </p>
         </div>
-        
+
         <div class="footer-section">
           <h3>Quick Links</h3>
           <ul>
             <li><router-link to="/">Home</router-link></li>
             <li><router-link to="/leaderboard">LeaderBoard</router-link></li>
-            <li><a href="https://github.com/GitTaskBench" target="_blank">GitHub</a></li>
+            <li><a href="https://github.com/QuantaAlpha/GitTaskBench" target="_blank">GitHub</a></li>
           </ul>
         </div>
-        
+
         <div class="footer-section">
           <h3>Resources</h3>
           <ul>
@@ -29,11 +30,11 @@
             <li><a href="#" target="_blank">Dataset</a></li>
           </ul>
         </div>
-        
+
         <div class="footer-section">
           <h3>Contact</h3>
           <div class="social-links">
-            <a href="https://github.com/GitTaskBench" target="_blank" title="GitHub">
+            <a href="https://github.com/QuantaAlpha/GitTaskBench" target="_blank" title="GitHub">
               <i class="fab fa-github"></i>
             </a>
             <a href="#" target="_blank" title="Email">
@@ -45,7 +46,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="footer-bottom">
         <div class="footer-bottom-content">
           <p>&copy; 2024 GitTaskBench. All rights reserved.</p>
@@ -64,10 +65,9 @@ export default {
 
 <style scoped>
 .footer {
-  background: rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(10px);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  color: white;
+  background: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+  color: #333;
   margin-top: auto;
 }
 
@@ -88,7 +88,7 @@ export default {
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 20px;
-  color: white;
+  color: #333;
 }
 
 .footer-logo {
@@ -109,7 +109,7 @@ export default {
 }
 
 .footer-description {
-  color: rgba(255, 255, 255, 0.7);
+  color: #666;
   line-height: 1.6;
   margin-bottom: 20px;
 }
@@ -125,7 +125,7 @@ export default {
 }
 
 .footer-section ul li a {
-  color: rgba(255, 255, 255, 0.7);
+  color: #666;
   text-decoration: none;
   transition: all 0.3s ease;
   display: inline-flex;
@@ -134,7 +134,7 @@ export default {
 }
 
 .footer-section ul li a:hover {
-  color: white;
+  color: #333;
   transform: translateX(4px);
 }
 
@@ -149,21 +149,21 @@ export default {
   justify-content: center;
   width: 40px;
   height: 40px;
-  background: rgba(255, 255, 255, 0.1);
+  background: #e9ecef;
   border-radius: 50%;
-  color: rgba(255, 255, 255, 0.7);
+  color: #666;
   text-decoration: none;
   transition: all 0.3s ease;
 }
 
 .social-links a:hover {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
+  background: #dee2e6;
+  color: #333;
   transform: translateY(-2px);
 }
 
 .footer-bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid #e9ecef;
   padding: 20px 0;
 }
 
@@ -176,7 +176,7 @@ export default {
 }
 
 .footer-bottom-content p {
-  color: rgba(255, 255, 255, 0.6);
+  color: #666;
   font-size: 14px;
   margin: 0;
 }
@@ -187,12 +187,12 @@ export default {
     gap: 32px;
     padding: 40px 0 30px;
   }
-  
+
   .footer-bottom-content {
     flex-direction: column;
     text-align: center;
   }
-  
+
   .social-links {
     justify-content: center;
   }

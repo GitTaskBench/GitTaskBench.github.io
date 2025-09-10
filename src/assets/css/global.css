@@ -12,7 +12,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #ffffff;
   color: #333;
 }
 
@@ -26,16 +26,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
+  background: #f5f5f5;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
+  background: #c1c1c1;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.5);
+  background: #a8a8a8;
 }
 
 /* Button styles */
@@ -64,28 +64,29 @@ body {
 }
 
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #f8f9fa;
+  color: #333;
+  border: 1px solid #e9ecef;
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: #e9ecef;
+  border-color: #dee2e6;
 }
 
 /* Card styles */
 .card {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #ffffff;
+  border: 1px solid #e9ecef;
   border-radius: 16px;
   padding: 24px;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
 /* Animations */
