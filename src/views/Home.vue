@@ -256,6 +256,7 @@ export default {
   color: #333;
 }
 
+
 .gradient-text {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   -webkit-background-clip: text;
@@ -546,6 +547,7 @@ export default {
     font-size: 2.5rem;
   }
 
+
   .features-grid {
     grid-template-columns: 1fr;
   }
@@ -571,6 +573,7 @@ export default {
   .hero-title {
     font-size: 2rem;
   }
+
 
   .section-title {
     font-size: 2rem;

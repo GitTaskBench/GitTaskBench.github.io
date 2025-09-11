@@ -15,22 +15,6 @@
       </div>
     </section>
 
-    <!-- Chart Section -->
-    <section class="chart-section">
-      <div class="container">
-        <div class="chart-container card">
-          <div class="chart-header">
-            <h2>Performance Comparison Chart</h2>
-            <p class="chart-description">ECR (Error Correction Rate) comparison across different Framework+LLM
-              combinations</p>
-          </div>
-          <div class="chart-wrapper">
-            <div ref="chartContainer" class="chart" style="width: 100%; height: 500px;"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- Content Blocks Section -->
     <section class="content-blocks-section">
       <div class="container">
@@ -43,8 +27,7 @@
             <div class="content-text">
               <div class="content-main">
                 <h3>Research Paper</h3>
-                <p>Explore our detailed research paper to understand GitTaskBench's evaluation methodology and
-                  experimental results</p>
+                <p>Detailed methodology and experimental results</p>
               </div>
               <a href="https://arxiv.org/pdf/2508.18993" class="content-link" target="_blank" rel="noopener noreferrer">
                 <span>Read Paper</span>
@@ -61,7 +44,7 @@
             <div class="content-text">
               <div class="content-main">
                 <h3>HuggingFace</h3>
-                <p>Explore our datasets and models on HuggingFace Hub and join the community discussions</p>
+                <p>Datasets, models and community discussions</p>
               </div>
               <a href="https://huggingface.co/QuantaAlpha" class="content-link" target="_blank"
                 rel="noopener noreferrer">
@@ -79,13 +62,29 @@
             <div class="content-text">
               <div class="content-main">
                 <h3>Submit Model</h3>
-                <p>Submit your model for evaluation and join the GitTaskBench leaderboard to showcase your results</p>
+                <p>Submit your model for evaluation</p>
               </div>
               <a href="#" class="content-link">
                 <span>Submit Model</span>
                 <i class="fas fa-arrow-right"></i>
               </a>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chart Section -->
+    <section class="chart-section">
+      <div class="container">
+        <div class="chart-container card">
+          <div class="chart-header">
+            <h2>Performance Comparison Chart</h2>
+            <p class="chart-description">TPR (True Positive Rate) comparison across different Framework+LLM
+              combinations</p>
+          </div>
+          <div class="chart-wrapper">
+            <div ref="chartContainer" class="chart" style="width: 100%; height: 500px;"></div>
           </div>
         </div>
       </div>
@@ -152,19 +151,11 @@
               <div class="dropdown-options" v-show="activeDropdown === 'sortColumn'">
                 <div class="dropdown-option" value="ecr" @click.stop="selectSortColumn('ecr')"
                   :class="{ 'selected': sortColumn === 'ecr' }">
-                  ECR
+                  Exec Completion
                 </div>
                 <div class="dropdown-option" value="tpr" @click.stop="selectSortColumn('tpr')"
                   :class="{ 'selected': sortColumn === 'tpr' }">
-                  TPR
-                </div>
-                <div class="dropdown-option" value="inputTokens" @click.stop="selectSortColumn('inputTokens')"
-                  :class="{ 'selected': sortColumn === 'inputTokens' }">
-                  Input Tokens
-                </div>
-                <div class="dropdown-option" value="outputTokens" @click.stop="selectSortColumn('outputTokens')"
-                  :class="{ 'selected': sortColumn === 'outputTokens' }">
-                  Output Tokens
+                  Task Pass
                 </div>
                 <div class="dropdown-option" value="cost" @click.stop="selectSortColumn('cost')"
                   :class="{ 'selected': sortColumn === 'cost' }">
@@ -199,27 +190,23 @@
               <thead>
                 <tr>
                   <th class="rank-col">Rank</th>
+                  <th class="type-col">Type</th>
                   <th class="model-col">Framework+LLM</th>
+                  <th class="org-col">ORG</th>
                   <th class="metric-col" @click="sortBy('ecr')">
-                    ECR (%)
+                    Exec Completion (%)
                     <i class="fas fa-sort" :class="getSortIcon('ecr')"></i>
                   </th>
                   <th class="metric-col" @click="sortBy('tpr')">
-                    TPR (%)
+                    Task Pass (%)
                     <i class="fas fa-sort" :class="getSortIcon('tpr')"></i>
-                  </th>
-                  <th class="metric-col" @click="sortBy('inputTokens')">
-                    Input Tokens (k)
-                    <i class="fas fa-sort" :class="getSortIcon('inputTokens')"></i>
-                  </th>
-                  <th class="metric-col" @click="sortBy('outputTokens')">
-                    Output Tokens
-                    <i class="fas fa-sort" :class="getSortIcon('outputTokens')"></i>
                   </th>
                   <th class="metric-col" @click="sortBy('cost')">
                     Cost ($)
                     <i class="fas fa-sort" :class="getSortIcon('cost')"></i>
                   </th>
+                  <th class="date-col">Commit Date</th>
+                  <th class="site-col">Site</th>
                   <!-- <th class="action-col">Actions</th> -->
                 </tr>
               </thead>
@@ -233,13 +220,24 @@
                       {{ index + 1 }}
                     </div>
                   </td>
+                  <td class="type-col">
+                    <div class="type-icon" :class="model.type">
+                      <i :class="getTypeIcon(model.type)"></i>
+                    </div>
+                  </td>
                   <td class="model-col">
                     <div class="model-info">
-                      <div class="model-name">{{ model.name }}</div>
-                      <div class="model-details">
-                        <span class="model-type" :class="model.type">{{ model.type }}</span>
-                        <span class="framework-name">{{ model.framework }}</span>
+                      <div class="model-name">
+                        {{ model.name }}
                       </div>
+                    </div>
+                  </td>
+                  <td class="org-col">
+                    <div class="org-icons">
+                      <img :src="frameworkLogos[model.framework]" :alt="model.framework" class="framework-icon-small"
+                        v-if="frameworkLogos[model.framework]" />
+                      <img :src="llmLogos[model.llm]" :alt="model.llm" class="llm-icon-small"
+                        v-if="llmLogos[model.llm]" />
                     </div>
                   </td>
                   <td class="metric-col">
@@ -249,13 +247,16 @@
                     <span class="metric-value">{{ model.tpr.toFixed(2) }}%</span>
                   </td>
                   <td class="metric-col">
-                    <span class="metric-value">{{ model.inputTokens.toFixed(2) }}</span>
-                  </td>
-                  <td class="metric-col">
-                    <span class="metric-value">{{ model.outputTokens.toFixed(0) }}</span>
-                  </td>
-                  <td class="metric-col">
                     <span class="metric-value">{{ model.cost === '-' ? '-' : '$' + model.cost }}</span>
+                  </td>
+                  <td class="date-col">
+                    <span class="date-value">{{ model.commitDate }}</span>
+                  </td>
+                  <td class="site-col">
+                    <a :href="model.siteUrl" target="_blank" rel="noopener noreferrer" class="site-link"
+                      title="Visit Model Site">
+                      <i class="fas fa-external-link-alt"></i>
+                    </a>
                   </td>
                   <!-- <td class="action-col">
                     <button class="btn-icon" @click="viewDetails(model)" title="View Details">
@@ -324,6 +325,18 @@
 
 <script>
 import * as echarts from 'echarts'
+import aiderLogo from '@/assets/logos/aider.png'
+import sweLogo from '@/assets/logos/swe.png'
+import openhandsLogo from '@/assets/logos/openhands.png'
+import claudeLogo from '@/assets/logos/claude.svg'
+import deepseekLogo from '@/assets/logos/deepseek.svg'
+import geminiLogo from '@/assets/logos/gemini.svg'
+import gptLogo from '@/assets/logos/gpt.png'
+// import grokLogo from '@/assets/logos/grok.svg'
+import llamaLogo from '@/assets/logos/llama.svg'
+// import qaLogo from '@/assets/logos/qa.png'
+import qwenLogo from '@/assets/logos/qwen.png'
+import qaBaseLogo from '@/assets/logos/qa-base.png'
 
 export default {
   name: 'LeaderBoard',
@@ -333,7 +346,7 @@ export default {
       selectedFramework: 'all',
       selectedMetric: 'overall',
       selectedModelType: 'all',
-      sortColumn: 'ecr',
+      sortColumn: 'tpr',
       sortDirection: 'desc',
       lastUpdated: '2024-01-15',
       chartInstance: null,
@@ -352,35 +365,62 @@ export default {
 
       // CSV数据
       csvData: [
-        { Framework: 'Aider', LLM: 'GPT-4o', ECR: 5.56, TPR: 1.85, InputTokens: 10.67, OutputTokens: 492.67, Cost: 0.0316 },
-        { Framework: 'Aider', LLM: 'GPT-4.1', ECR: 11.11, TPR: 7.41, InputTokens: 14.83, OutputTokens: 734.17, Cost: 0.0355 },
-        { Framework: 'Aider', LLM: 'Claude 3.5', ECR: 16.67, TPR: 12.96, InputTokens: 7.48, OutputTokens: 534.00, Cost: 0.0304 },
-        { Framework: 'Aider', LLM: 'DeepSeekV3', ECR: 20.37, TPR: 16.67, InputTokens: 7.51, OutputTokens: 599.64, Cost: 0.00269 },
-        { Framework: 'SWE-Agent', LLM: 'GPT-4o', ECR: 17.58, TPR: 10.19, InputTokens: 275.53, OutputTokens: 1282.70, Cost: 0.778 },
-        { Framework: 'SWE-Agent', LLM: 'GPT-4.1', ECR: 38.89, TPR: 31.48, InputTokens: 301.11, OutputTokens: 2098.33, Cost: 0.661 },
-        { Framework: 'SWE-Agent', LLM: 'o3-mini', ECR: 25.93, TPR: 20.37, InputTokens: 158.45, OutputTokens: 215.20, Cost: 0.175 },
-        { Framework: 'SWE-Agent', LLM: 'Claude 3.5', ECR: 41.67, TPR: 22.23, InputTokens: 455.34, OutputTokens: 943.30, Cost: 1.38 },
-        { Framework: 'SWE-Agent', LLM: 'Claude 3.7', ECR: 64.81, TPR: 42.59, InputTokens: 552.79, OutputTokens: 807.63, Cost: 1.67 },
-        { Framework: 'SWE-Agent', LLM: 'DeepSeekV3', ECR: 18.52, TPR: 12.04, InputTokens: 412.65, OutputTokens: 1649.82, Cost: 0.113 },
-        { Framework: 'SWE-Agent', LLM: 'Qwen3-32b*', ECR: 7.41, TPR: 3.70, InputTokens: 1445.97, OutputTokens: 2405.00, Cost: '-' },
-        { Framework: 'SWE-Agent', LLM: 'Qwen3-32b*†', ECR: 16.67, TPR: 11.11, InputTokens: 124.15, OutputTokens: 559.11, Cost: '-' },
-        { Framework: 'SWE-Agent', LLM: 'Llama3.3-70b*', ECR: 25.83, TPR: 18.52, InputTokens: 397.03, OutputTokens: 1985.64, Cost: '-' },
-        { Framework: 'OpenHands', LLM: 'GPT-4o', ECR: 21.30, TPR: 14.82, InputTokens: 760.53, OutputTokens: 3990.31, Cost: 1.94 },
-        { Framework: 'OpenHands', LLM: 'GPT-4.1', ECR: 55.56, TPR: 42.59, InputTokens: 465.94, OutputTokens: 1535.47, Cost: 0.942 },
-        { Framework: 'OpenHands', LLM: 'o3-mini', ECR: 29.63, TPR: 22.22, InputTokens: 2523.53, OutputTokens: 183637.53, Cost: 3.58 },
-        { Framework: 'OpenHands', LLM: 'Claude 3.5', ECR: 53.70, TPR: 40.74, InputTokens: 2858.00, OutputTokens: 24929.47, Cost: 8.95 },
-        { Framework: 'OpenHands', LLM: 'Claude 3.7', ECR: 72.22, TPR: 48.15, InputTokens: 9501.25, OutputTokens: 85033.05, Cost: 29.8 },
-        { Framework: 'OpenHands', LLM: 'Gemini-2.5-pro', ECR: 51.85, TPR: 35.19, InputTokens: 760.88, OutputTokens: 35173.29, Cost: 2.18 },
-        { Framework: 'OpenHands', LLM: 'DeepSeekV3', ECR: 45.37, TPR: 26.85, InputTokens: 4717.78, OutputTokens: 31957.67, Cost: 1.31 },
-        { Framework: 'OpenHands', LLM: 'Qwen3-8b*', ECR: 1.85, TPR: 1.85, InputTokens: 846.26, OutputTokens: 2045.00, Cost: '-' },
-        { Framework: 'OpenHands', LLM: 'Qwen3-14b*', ECR: 11.11, TPR: 5.56, InputTokens: 339.42, OutputTokens: 2540.17, Cost: '-' },
-        { Framework: 'OpenHands', LLM: 'Qwen3-32b*', ECR: 35.19, TPR: 25.93, InputTokens: 591.02, OutputTokens: 2097.89, Cost: '-' },
-        { Framework: 'OpenHands', LLM: 'Qwen3-32b*†', ECR: 44.44, TPR: 29.63, InputTokens: 208.00, OutputTokens: 8755.35, Cost: '-' },
-        { Framework: 'OpenHands', LLM: 'Llama3.3-70b*', ECR: 27.78, TPR: 20.37, InputTokens: 132.69, OutputTokens: 872.93, Cost: '-' }
+        { Framework: 'Aider', LLM: 'GPT-4o', ECR: 5.56, TPR: 1.85, InputTokens: 10.67, OutputTokens: 492.67, Cost: 0.0316, CommitDate: '2024-12-15', SiteUrl: 'https://openai.com/research/gpt-4' },
+        { Framework: 'Aider', LLM: 'GPT-4.1', ECR: 11.11, TPR: 7.41, InputTokens: 14.83, OutputTokens: 734.17, Cost: 0.0355, CommitDate: '2024-12-15', SiteUrl: 'https://openai.com/research/gpt-4' },
+        { Framework: 'Aider', LLM: 'Claude 3.5', ECR: 16.67, TPR: 12.96, InputTokens: 7.48, OutputTokens: 534.00, Cost: 0.0304, CommitDate: '2024-12-10', SiteUrl: 'https://github.com/anthropics/anthropic-sdk-python' },
+        { Framework: 'Aider', LLM: 'DeepSeekV3', ECR: 20.37, TPR: 16.67, InputTokens: 7.51, OutputTokens: 599.64, Cost: 0.00269, CommitDate: '2024-12-12', SiteUrl: 'https://github.com/deepseek-ai/DeepSeek-V3' },
+        { Framework: 'SWE-Agent', LLM: 'GPT-4o', ECR: 17.58, TPR: 10.19, InputTokens: 275.53, OutputTokens: 1282.70, Cost: 0.778, CommitDate: '2024-12-15', SiteUrl: 'https://openai.com/research/gpt-4' },
+        { Framework: 'SWE-Agent', LLM: 'GPT-4.1', ECR: 38.89, TPR: 31.48, InputTokens: 301.11, OutputTokens: 2098.33, Cost: 0.661, CommitDate: '2024-12-15', SiteUrl: 'https://openai.com/research/gpt-4' },
+        { Framework: 'SWE-Agent', LLM: 'o3-mini', ECR: 25.93, TPR: 20.37, InputTokens: 158.45, OutputTokens: 215.20, Cost: 0.175, CommitDate: '2024-12-15', SiteUrl: 'https://openai.com/research/gpt-4' },
+        { Framework: 'SWE-Agent', LLM: 'Claude 3.5', ECR: 41.67, TPR: 22.23, InputTokens: 455.34, OutputTokens: 943.30, Cost: 1.38, CommitDate: '2024-12-10', SiteUrl: 'https://github.com/anthropics/anthropic-sdk-python' },
+        { Framework: 'SWE-Agent', LLM: 'Claude 3.7', ECR: 64.81, TPR: 42.59, InputTokens: 552.79, OutputTokens: 807.63, Cost: 1.67, CommitDate: '2024-12-10', SiteUrl: 'https://github.com/anthropics/anthropic-sdk-python' },
+        { Framework: 'SWE-Agent', LLM: 'DeepSeekV3', ECR: 18.52, TPR: 12.04, InputTokens: 412.65, OutputTokens: 1649.82, Cost: 0.113, CommitDate: '2024-12-12', SiteUrl: 'https://github.com/deepseek-ai/DeepSeek-V3' },
+        { Framework: 'SWE-Agent', LLM: 'Qwen3-32b*', ECR: 7.41, TPR: 3.70, InputTokens: 1445.97, OutputTokens: 2405.00, Cost: '-', CommitDate: '2024-12-08', SiteUrl: 'https://github.com/QwenLM/Qwen3' },
+        { Framework: 'SWE-Agent', LLM: 'Qwen3-32b*†', ECR: 16.67, TPR: 11.11, InputTokens: 124.15, OutputTokens: 559.11, Cost: '-', CommitDate: '2024-12-08', SiteUrl: 'https://github.com/QwenLM/Qwen3' },
+        { Framework: 'SWE-Agent', LLM: 'Llama3.3-70b*', ECR: 25.83, TPR: 18.52, InputTokens: 397.03, OutputTokens: 1985.64, Cost: '-', CommitDate: '2024-12-05', SiteUrl: 'https://github.com/meta-llama/llama3.3' },
+        { Framework: 'OpenHands', LLM: 'GPT-4o', ECR: 21.30, TPR: 14.82, InputTokens: 760.53, OutputTokens: 3990.31, Cost: 1.94, CommitDate: '2024-12-15', SiteUrl: 'https://openai.com/research/gpt-4' },
+        { Framework: 'OpenHands', LLM: 'GPT-4.1', ECR: 55.56, TPR: 42.59, InputTokens: 465.94, OutputTokens: 1535.47, Cost: 0.942, CommitDate: '2024-12-15', SiteUrl: 'https://openai.com/research/gpt-4' },
+        { Framework: 'OpenHands', LLM: 'o3-mini', ECR: 29.63, TPR: 22.22, InputTokens: 2523.53, OutputTokens: 183637.53, Cost: 3.58, CommitDate: '2024-12-15', SiteUrl: 'https://openai.com/research/gpt-4' },
+        { Framework: 'OpenHands', LLM: 'Claude 3.5', ECR: 53.70, TPR: 40.74, InputTokens: 2858.00, OutputTokens: 24929.47, Cost: 8.95, CommitDate: '2024-12-10', SiteUrl: 'https://github.com/anthropics/anthropic-sdk-python' },
+        { Framework: 'OpenHands', LLM: 'Claude 3.7', ECR: 72.22, TPR: 48.15, InputTokens: 9501.25, OutputTokens: 85033.05, Cost: 29.8, CommitDate: '2024-12-10', SiteUrl: 'https://github.com/anthropics/anthropic-sdk-python' },
+        { Framework: 'OpenHands', LLM: 'Gemini-2.5-pro', ECR: 51.85, TPR: 35.19, InputTokens: 760.88, OutputTokens: 35173.29, Cost: 2.18, CommitDate: '2024-12-13', SiteUrl: 'https://github.com/google/generative-ai-python' },
+        { Framework: 'OpenHands', LLM: 'DeepSeekV3', ECR: 45.37, TPR: 26.85, InputTokens: 4717.78, OutputTokens: 31957.67, Cost: 1.31, CommitDate: '2024-12-12', SiteUrl: 'https://github.com/deepseek-ai/DeepSeek-V3' },
+        { Framework: 'OpenHands', LLM: 'Qwen3-8b*', ECR: 1.85, TPR: 1.85, InputTokens: 846.26, OutputTokens: 2045.00, Cost: '-', CommitDate: '2024-12-08', SiteUrl: 'https://github.com/QwenLM/Qwen3' },
+        { Framework: 'OpenHands', LLM: 'Qwen3-14b*', ECR: 11.11, TPR: 5.56, InputTokens: 339.42, OutputTokens: 2540.17, Cost: '-', CommitDate: '2024-12-08', SiteUrl: 'https://github.com/QwenLM/Qwen3' },
+        { Framework: 'OpenHands', LLM: 'Qwen3-32b*', ECR: 35.19, TPR: 25.93, InputTokens: 591.02, OutputTokens: 2097.89, Cost: '-', CommitDate: '2024-12-08', SiteUrl: 'https://github.com/QwenLM/Qwen3' },
+        { Framework: 'OpenHands', LLM: 'Qwen3-32b*†', ECR: 44.44, TPR: 29.63, InputTokens: 208.00, OutputTokens: 8755.35, Cost: '-', CommitDate: '2024-12-08', SiteUrl: 'https://github.com/QwenLM/Qwen3' },
+        { Framework: 'OpenHands', LLM: 'Llama3.3-70b*', ECR: 27.78, TPR: 20.37, InputTokens: 132.69, OutputTokens: 872.93, Cost: '-', CommitDate: '2024-12-05', SiteUrl: 'https://github.com/meta-llama/llama3.3' },
+        { Framework: 'RepoMaster', LLM: 'GPT-4o', ECR: 48.14, TPR: 40.74, InputTokens: 248.8, OutputTokens: 1231, Cost: 0.70, CommitDate: '2024-12-14', SiteUrl: 'https://openai.com/research/gpt-4' },
+        { Framework: 'RepoMaster', LLM: 'Claude 3.5', ECR: 75.92, TPR: 62.96, InputTokens: 153.2, OutputTokens: 827, Cost: 0.48, CommitDate: '2024-12-10', SiteUrl: 'https://github.com/anthropics/anthropic-sdk-python' },
+        { Framework: 'RepoMaster', LLM: 'DeepSeekV3', ECR: 61.11, TPR: 44.44, InputTokens: 253.6, OutputTokens: 1366, Cost: 0.07, CommitDate: '2024-12-12', SiteUrl: 'https://github.com/deepseek-ai/DeepSeek-V3' }
       ],
 
       // 从CSV数据生成表格数据
-      leaderboardData: []
+      leaderboardData: [],
+
+      // Framework logo mapping
+      frameworkLogos: {
+        'Aider': aiderLogo,
+        'SWE-Agent': sweLogo,
+        'OpenHands': openhandsLogo,
+        'RepoMaster': qaBaseLogo
+      },
+
+      // LLM logo mapping
+      llmLogos: {
+        'GPT-4o': gptLogo,
+        'GPT-4.1': gptLogo,
+        'o3-mini': gptLogo,
+        'Claude 3.5': claudeLogo,
+        'Claude 3.7': claudeLogo,
+        'DeepSeekV3': deepseekLogo,
+        'Gemini-2.5-pro': geminiLogo,
+        'Qwen3-8b*': qwenLogo,
+        'Qwen3-14b*': qwenLogo,
+        'Qwen3-32b*': qwenLogo,
+        'Qwen3-32b*†': qwenLogo,
+        'Llama3.3-70b*': llamaLogo
+      }
     }
   },
 
@@ -397,17 +437,19 @@ export default {
         inputTokens: item.InputTokens,
         outputTokens: item.OutputTokens,
         cost: item.Cost,
+        commitDate: item.CommitDate,
+        siteUrl: item.SiteUrl,
         type: this.getModelType(item.LLM)
       }))
     },
 
-    // 图表数据 - 按ECR排序（从低到高）
+    // 图表数据 - 按TPR排序（从低到高）
     chartData() {
-      const sortedData = [...this.csvData].sort((a, b) => a.ECR - b.ECR)
+      const sortedData = [...this.csvData].sort((a, b) => a.TPR - b.TPR)
 
       return {
         categories: sortedData.map(item => `${item.Framework}+${item.LLM}`),
-        ecrValues: sortedData.map(item => item.ECR),
+        tprValues: sortedData.map(item => item.TPR),
         fullData: sortedData
       }
     },
@@ -485,7 +527,7 @@ export default {
 
       const option = {
         title: {
-          text: 'ECR Performance Comparison',
+          text: 'TPR Performance Comparison',
           left: 'center',
           textStyle: {
             fontSize: 18,
@@ -515,12 +557,12 @@ export default {
                   ${data.Framework} + ${data.LLM}
                 </div>
                 <div style="margin: 8px 0; display: flex; justify-content: space-between; align-items: center; padding: 4px 0;">
-                  <span style="color: #4a5568; font-weight: 500; font-size: 13px;">ECR:</span>
-                  <span style="font-weight: 600; color: #2d3748; font-size: 13px;">${data.ECR}%</span>
-                </div>
-                <div style="margin: 8px 0; display: flex; justify-content: space-between; align-items: center; padding: 4px 0;">
                   <span style="color: #4a5568; font-weight: 500; font-size: 13px;">TPR:</span>
                   <span style="font-weight: 600; color: #2d3748; font-size: 13px;">${data.TPR}%</span>
+                </div>
+                <div style="margin: 8px 0; display: flex; justify-content: space-between; align-items: center; padding: 4px 0;">
+                  <span style="color: #4a5568; font-weight: 500; font-size: 13px;">ECR:</span>
+                  <span style="font-weight: 600; color: #2d3748; font-size: 13px;">${data.ECR}%</span>
                 </div>
                 <div style="margin: 8px 0; display: flex; justify-content: space-between; align-items: center; padding: 4px 0;">
                   <span style="color: #4a5568; font-weight: 500; font-size: 13px;">Input Tokens:</span>
@@ -544,6 +586,7 @@ export default {
           bottom: '3%',
           containLabel: true
         },
+        dataZoom: [],
         xAxis: {
           type: 'category',
           data: this.chartData.categories,
@@ -560,7 +603,7 @@ export default {
         },
         yAxis: {
           type: 'value',
-          name: 'ECR (%)',
+          name: 'TPR (%)',
           nameLocation: 'middle',
           nameGap: 50,
           nameTextStyle: {
@@ -583,15 +626,20 @@ export default {
           }
         },
         series: [{
-          name: 'ECR',
+          name: 'TPR',
           type: 'bar',
-          data: this.chartData.ecrValues,
-          itemStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              { offset: 0, color: '#667eea' },
-              { offset: 1, color: '#764ba2' }
-            ]),
-            borderRadius: [4, 4, 0, 0]
+          data: this.chartData.tprValues.map((value) => ({
+            value: value,
+            itemStyle: {
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: '#667eea' },
+                { offset: 1, color: '#764ba2' }
+              ]),
+              borderRadius: [4, 4, 0, 0]
+            }
+          })),
+          label: {
+            show: false
           },
           emphasis: {
             itemStyle: {
@@ -601,20 +649,71 @@ export default {
               ])
             }
           },
-          animationDelay: (idx) => idx * 50
         }],
-        animation: true,
-        animationDuration: 1000,
-        animationEasing: 'cubicOut'
+        animation: false
       }
 
       this.chartInstance.setOption(option)
+
+      // 添加框架图标
+      this.addFrameworkIcons()
+    },
+
+    // 添加框架图标
+    addFrameworkIcons() {
+      if (!this.chartInstance) return
+
+      // 延迟执行，确保图表完全渲染
+      setTimeout(() => {
+        const chartContainer = this.$refs.chartContainer
+        if (!chartContainer) return
+
+        // 清除之前的图标
+        const existingIcons = chartContainer.querySelectorAll('.framework-icon')
+        existingIcons.forEach(icon => icon.remove())
+
+        // 确保图表容器有相对定位
+        chartContainer.style.position = 'relative'
+
+        // 获取ECharts实例的坐标转换器
+        const convertToPixel = this.chartInstance.convertToPixel.bind(this.chartInstance)
+
+        this.chartData.fullData.forEach((item, index) => {
+          const logo = this.frameworkLogos[item.Framework]
+          if (!logo) return
+
+          // 使用ECharts的坐标转换获取柱子的实际位置
+          const pixelPos = convertToPixel('grid', [index, item.TPR])
+          if (!pixelPos) return
+
+          // 创建图标元素
+          const iconElement = document.createElement('div')
+          iconElement.className = 'framework-icon'
+          iconElement.style.cssText = `
+            position: absolute;
+            top: ${pixelPos[1] - 30}px;
+            left: ${pixelPos[0] - 12}px;
+            width: 24px;
+            height: 24px;
+            background-image: url(${logo});
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            z-index: 10;
+            pointer-events: none;
+          `
+
+          chartContainer.appendChild(iconElement)
+        })
+      }, 100)
     },
 
     // 处理窗口大小变化
     handleResize() {
       if (this.chartInstance) {
         this.chartInstance.resize()
+        // 重新添加图标
+        this.addFrameworkIcons()
       }
     },
 
@@ -656,6 +755,12 @@ export default {
       if (rank === 2) return 'fas fa-medal'
       if (rank === 3) return 'fas fa-award'
       return ''
+    },
+
+    getTypeIcon(type) {
+      if (type === 'open-source') return 'fas fa-unlock'
+      if (type === 'proprietary') return 'fas fa-lock'
+      return 'fas fa-question'
     },
 
     viewDetails(model) {
@@ -706,13 +811,13 @@ export default {
 
     getSelectedSortText() {
       const sortMap = {
-        'ecr': 'ECR',
-        'tpr': 'TPR',
+        'ecr': 'Exec Completion',
+        'tpr': 'Task Pass',
         'inputTokens': 'Input Tokens',
         'outputTokens': 'Output Tokens',
         'cost': 'Cost'
       }
-      return sortMap[this.sortColumn] || 'ECR'
+      return sortMap[this.sortColumn] || 'Task Pass'
     },
 
     closeDropdowns(event) {
@@ -1064,6 +1169,19 @@ export default {
   min-width: 200px;
 }
 
+.org-col {
+  width: 80px;
+  text-align: center;
+}
+
+.org-icons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
 .model-info {
   display: flex;
   flex-direction: column;
@@ -1073,6 +1191,25 @@ export default {
 .model-name {
   font-weight: 600;
   color: #333;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.framework-icon-small {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.llm-icon-small {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+  margin: 0 4px;
+  vertical-align: middle;
 }
 
 .model-details {
@@ -1144,6 +1281,104 @@ export default {
   text-align: center;
 }
 
+.leaderboard-table th.metric-col {
+  text-align: center;
+}
+
+.date-col {
+  min-width: 120px;
+  text-align: center;
+}
+
+.leaderboard-table th.date-col {
+  text-align: center;
+}
+
+.site-col {
+  min-width: 80px;
+  text-align: center;
+}
+
+.leaderboard-table th.site-col {
+  text-align: center;
+}
+
+.date-value {
+  font-weight: 500;
+  color: #666;
+  font-size: 14px;
+}
+
+.site-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 12px;
+}
+
+.site-link:hover {
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  color: white;
+  text-decoration: none;
+}
+
+.site-link i {
+  font-size: 10px;
+}
+
+.type-col {
+  min-width: 80px;
+  text-align: center;
+}
+
+.leaderboard-table th.type-col {
+  text-align: center;
+}
+
+.type-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  font-size: 12px;
+  transition: all 0.3s ease;
+}
+
+.type-icon.open-source {
+  background: rgba(34, 197, 94, 0.15);
+  color: #16a34a;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.type-icon.open-source:hover {
+  background: rgba(34, 197, 94, 0.25);
+  border-color: rgba(34, 197, 94, 0.5);
+  transform: scale(1.1);
+}
+
+.type-icon.proprietary {
+  background: rgba(156, 163, 175, 0.15);
+  color: #9ca3af;
+  border: 1px solid rgba(156, 163, 175, 0.3);
+}
+
+.type-icon.proprietary:hover {
+  background: rgba(156, 163, 175, 0.25);
+  border-color: rgba(156, 163, 175, 0.5);
+  transform: scale(1.1);
+}
+
 .metric-value {
   font-weight: 500;
 }
@@ -1206,19 +1441,20 @@ export default {
 
 .chart {
   min-height: 500px;
+  position: relative;
 }
 
 /* Content Blocks Section */
 .content-blocks-section {
-  padding: 60px 0;
+  padding: 40px 0;
   background: #f8f9fa;
 }
 
 .content-blocks-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 32px;
-  max-width: 1000px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
@@ -1227,7 +1463,7 @@ export default {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 40px 24px;
+  padding: 28px 20px;
   background: #ffffff;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -1259,16 +1495,16 @@ export default {
 }
 
 .content-icon {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 32px;
+  font-size: 24px;
   color: white;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   transition: all 0.3s ease;
 }
 
@@ -1443,6 +1679,21 @@ export default {
     font-size: 14px;
   }
 
+  .date-col,
+  .site-col {
+    min-width: 100px;
+  }
+
+  .site-link {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+
+  .site-link i {
+    font-size: 8px;
+  }
+
   .stats-grid {
     grid-template-columns: 1fr;
   }
@@ -1464,18 +1715,18 @@ export default {
 
   .content-blocks-grid {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 20px;
   }
 
   .content-block {
-    padding: 32px 20px;
+    padding: 24px 16px;
   }
 
   .content-icon {
-    width: 70px;
-    height: 70px;
-    font-size: 28px;
-    margin-bottom: 20px;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    margin-bottom: 12px;
   }
 
   .content-text h3 {

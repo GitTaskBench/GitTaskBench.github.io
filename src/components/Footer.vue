@@ -4,7 +4,7 @@
       <div class="footer-content">
         <div class="footer-section">
           <div class="footer-logo">
-            <i class="fas fa-code-branch"></i>
+            <img src="@/assets/logos/qa-base.png" alt="GitTaskBench" class="footer-logo-img">
             <span>GitTaskBench</span>
           </div>
           <p class="footer-description">
@@ -100,12 +100,15 @@ export default {
   margin-bottom: 16px;
 }
 
-.footer-logo i {
-  font-size: 28px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.footer-logo-img {
+  height: 32px;
+  width: auto;
+  border-radius: 6px;
+  transition: transform 0.3s ease;
+}
+
+.footer-logo-img:hover {
+  transform: scale(1.1);
 }
 
 .footer-description {

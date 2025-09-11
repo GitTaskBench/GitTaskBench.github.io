@@ -3,7 +3,7 @@
     <div class="nav-container">
       <div class="nav-logo">
         <router-link to="/" class="logo-link">
-          <i class="fas fa-code-branch"></i>
+          <img src="@/assets/logos/qa-base.png" alt="GitTaskBench" class="nav-logo-img">
           <span>GitTaskBench</span>
         </router-link>
       </div>
@@ -89,12 +89,15 @@ export default {
   transform: scale(1.05);
 }
 
-.nav-logo i {
-  font-size: 28px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.nav-logo-img {
+  height: 32px;
+  width: auto;
+  border-radius: 6px;
+  transition: transform 0.3s ease;
+}
+
+.nav-logo-img:hover {
+  transform: scale(1.1);
 }
 
 .nav-menu {
