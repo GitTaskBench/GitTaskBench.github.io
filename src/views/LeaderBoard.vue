@@ -32,7 +32,7 @@
           </a>
 
           <!-- HuggingFace Block -->
-          <a href="https://huggingface.co/QuantaAlpha" class="content-block card" target="_blank"
+          <a href="https://huggingface.co/datasets/Nicole-Yi/GitTaskBench" class="content-block card" target="_blank"
             rel="noopener noreferrer">
             <div class="content-icon">
               <i class="fas fa-heart"></i>
@@ -233,8 +233,8 @@
                     <span class="date-value">{{ model.commitDate }}</span>
                   </td>
                   <td class="site-col">
-                    <a :href="model.siteUrl" target="_blank" rel="noopener noreferrer" class="site-link"
-                      title="Visit Model Site">
+                    <a :href="getFrameworkSiteUrl(model.framework)" target="_blank" rel="noopener noreferrer" class="site-link"
+                      :title="'Visit ' + model.framework + ' Site'">
                       <i class="fas fa-external-link-alt"></i>
                     </a>
                   </td>
@@ -386,6 +386,14 @@ export default {
         'RepoMaster': qaBaseLogo
       },
 
+      // Framework website URL mapping
+      frameworkSiteUrls: {
+        'Aider': 'https://github.com/Aider-AI/aider',
+        'SWE-Agent': 'https://github.com/SWE-agent/SWE-agent',
+        'OpenHands': 'https://github.com/All-Hands-AI/OpenHands',
+        'RepoMaster': 'https://github.com/QuantaAlpha/RepoMaster'
+      },
+
       // LLM logo mapping
       llmLogos: {
         'GPT-4o': gptLogo,
@@ -502,6 +510,11 @@ export default {
         'RepoMaster': '#4A6FA5'    // 高级深蓝 - 对应RepoMaster图标
       }
       return frameworkColors[framework] || '#8B9DC3' // 默认柔和蓝
+    },
+
+    // 获取框架网站URL
+    getFrameworkSiteUrl(framework) {
+      return this.frameworkSiteUrls[framework] || '#'
     },
 
     // 初始化图表
