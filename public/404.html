@@ -4,16 +4,28 @@
     <meta charset="utf-8">
     <title>Redirecting...</title>
     <script type="text/javascript">
-      // 简单的重定向到主页，让Vue Router处理路由
-      var pathSegmentsToKeep = 0;
-      var l = window.location;
-      l.replace(
-        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
-        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-        l.hash
-      );
+      // 检查是否是静态资源请求（JS、CSS等）
+      var path = window.location.pathname;
+      var isStaticResource = path.match(/\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/i);
+      
+      if (isStaticResource) {
+        // 对于静态资源，重定向到正确的路径
+        var l = window.location;
+        var basePath = '/GitTaskBench.github.io';
+        var newPath = basePath + path;
+        l.replace(l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + newPath + l.search + l.hash);
+      } else {
+        // 对于页面路由，重定向到主页让Vue Router处理
+        var pathSegmentsToKeep = 0;
+        var l = window.location;
+        l.replace(
+          l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+          l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+          l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+          (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+          l.hash
+        );
+      }
     </script>
   </head>
   <body>
