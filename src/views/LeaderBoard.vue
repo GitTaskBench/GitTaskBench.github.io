@@ -1952,9 +1952,6 @@ export default {
 .section-header {
   text-align: left;
   margin-bottom: 20px;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .section-title {
@@ -1965,8 +1962,7 @@ export default {
 }
 
 .submit-steps {
-  max-width: 600px;
-  margin: 0 auto 15px;
+  margin: 0 0 15px 0;
 }
 
 .step-item {
@@ -2051,8 +2047,7 @@ export default {
 }
 
 .submit-note {
-  max-width: 600px;
-  margin: 0 auto;
+  margin: 0;
   padding: 8px 10px;
   background: #f8f9fa;
   border-radius: 4px;
@@ -2068,6 +2063,9 @@ export default {
   color: #6c757d;
   flex-shrink: 0;
   margin-top: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .note-icon i {
@@ -2093,8 +2091,7 @@ export default {
 }
 
 .faq-list {
-  max-width: 600px;
-  margin: 0 auto;
+  margin: 0;
 }
 
 .faq-item {
@@ -2192,9 +2189,9 @@ export default {
   }
 
   .submit-note {
-    flex-direction: column;
-    text-align: center;
-    gap: 4px;
+    flex-direction: row;
+    text-align: left;
+    gap: 8px;
     padding: 6px 8px;
   }
 
