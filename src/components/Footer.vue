@@ -16,7 +16,7 @@
         <div class="footer-section">
           <h3>Quick Links</h3>
           <ul>
-            <li><router-link to="/">Home</router-link></li>
+            <li><a href="https://quantaalpha.com/" target="_blank">Home</a></li>
             <li><router-link to="/leaderboard">LeaderBoard</router-link></li>
             <li><a href="https://github.com/QuantaAlpha/GitTaskBench" target="_blank">GitHub</a></li>
           </ul>
@@ -26,8 +26,8 @@
           <h3>Resources</h3>
           <ul>
             <li><a href="#" target="_blank">Documentation</a></li>
-            <li><a href="#" target="_blank">Paper</a></li>
-            <li><a href="#" target="_blank">Dataset</a></li>
+            <li><a href="https://arxiv.org/pdf/2508.18993" target="_blank">Paper</a></li>
+            <li><a href="https://huggingface.co/datasets/Nicole-Yi/GitTaskBench" target="_blank">Dataset</a></li>
           </ul>
         </div>
 
@@ -37,7 +37,7 @@
             <a href="https://github.com/QuantaAlpha/GitTaskBench" target="_blank" title="GitHub">
               <i class="fab fa-github"></i>
             </a>
-            <a href="#" target="_blank" title="Email">
+            <a href="mailto:quantaalpha.ai@gmail.com" target="_blank" title="Email">
               <i class="fas fa-envelope"></i>
             </a>
             <a href="#" target="_blank" title="Twitter">
