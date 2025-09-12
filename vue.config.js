@@ -2,7 +2,7 @@ const { defineConfig } = require('@vue/cli-service')
 
 module.exports = defineConfig({
   transpileDependencies: true,
-  publicPath: '/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/GitTaskBench.github.io/' : '/',
   devServer: {
     port: 8080,
     open: true
