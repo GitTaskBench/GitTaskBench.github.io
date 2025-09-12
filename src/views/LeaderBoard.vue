@@ -9,7 +9,7 @@
             <span class="gradient-text">LeaderBoard</span>
           </h1>
           <p class="page-description">
-            Performance rankings of AI models on GitTaskBench evaluation tasks
+            Performance rankings of AI agents on GitTaskBench evaluation tasks
           </p>
         </div>
       </div>
@@ -20,56 +20,39 @@
       <div class="container">
         <div class="content-blocks-grid">
           <!-- Paper Block -->
-          <div class="content-block card">
+          <a href="https://arxiv.org/pdf/2508.18993" class="content-block card" target="_blank"
+            rel="noopener noreferrer">
             <div class="content-icon">
               <i class="fas fa-file-alt"></i>
             </div>
             <div class="content-text">
-              <div class="content-main">
-                <h3>Research Paper</h3>
-                <p>Detailed methodology and experimental results</p>
-              </div>
-              <a href="https://arxiv.org/pdf/2508.18993" class="content-link" target="_blank" rel="noopener noreferrer">
-                <span>Read Paper</span>
-                <i class="fas fa-arrow-right"></i>
-              </a>
+              <h3>Research Paper</h3>
+              <p>Methodology and results</p>
             </div>
-          </div>
+          </a>
 
           <!-- HuggingFace Block -->
-          <div class="content-block card">
+          <a href="https://huggingface.co/QuantaAlpha" class="content-block card" target="_blank"
+            rel="noopener noreferrer">
             <div class="content-icon">
               <i class="fas fa-heart"></i>
             </div>
             <div class="content-text">
-              <div class="content-main">
-                <h3>HuggingFace</h3>
-                <p>Datasets, models and community discussions</p>
-              </div>
-              <a href="https://huggingface.co/QuantaAlpha" class="content-link" target="_blank"
-                rel="noopener noreferrer">
-                <span>Visit Hub</span>
-                <i class="fas fa-arrow-right"></i>
-              </a>
+              <h3>HuggingFace</h3>
+              <p>Datasets and models</p>
             </div>
-          </div>
+          </a>
 
           <!-- Submit Model Block -->
-          <div class="content-block card">
+          <a href="#" class="content-block card">
             <div class="content-icon">
               <i class="fas fa-upload"></i>
             </div>
             <div class="content-text">
-              <div class="content-main">
-                <h3>Submit Model</h3>
-                <p>Submit your model for evaluation</p>
-              </div>
-              <a href="#" class="content-link">
-                <span>Submit Model</span>
-                <i class="fas fa-arrow-right"></i>
-              </a>
+              <h3>Submit Model</h3>
+              <p>Submit for evaluation</p>
             </div>
-          </div>
+          </a>
         </div>
       </div>
     </section>
@@ -79,12 +62,9 @@
       <div class="container">
         <div class="chart-container card">
           <div class="chart-header">
-            <h2>Performance Comparison Chart</h2>
-            <p class="chart-description">TPR (True Positive Rate) comparison across different Framework+LLM
-              combinations</p>
           </div>
           <div class="chart-wrapper">
-            <div ref="chartContainer" class="chart" style="width: 100%; height: 500px;"></div>
+            <div ref="chartContainer" class="chart" style="width: 100%; height: 350px;"></div>
           </div>
         </div>
       </div>
@@ -538,7 +518,7 @@ export default {
 
       const option = {
         title: {
-          text: 'TPR Performance Comparison',
+          text: 'Task pass rate performance comparison',
           left: 'center',
           textStyle: {
             fontSize: 18,
@@ -875,7 +855,7 @@ export default {
 
 /* Header Section */
 .leaderboard-header {
-  padding: 120px 0 80px;
+  padding: 40px 0 30px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -904,7 +884,7 @@ export default {
   font-size: 3rem;
   font-weight: 700;
   color: #333;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -924,22 +904,23 @@ export default {
 }
 
 .page-description {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #666;
   max-width: 600px;
   margin: 0 auto;
+  line-height: 1.4;
 }
 
 /* Filters Section */
 .filters-section {
-  padding: 0 0 40px;
+  padding: 0 0 20px;
 }
 
 .filters-container {
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 20px;
+  gap: 16px;
+  padding: 16px;
   flex-wrap: wrap;
   background: #ffffff;
   border-radius: 8px;
@@ -1075,7 +1056,7 @@ export default {
 
 /* Leaderboard Table */
 .leaderboard-table-section {
-  padding: 40px 0;
+  padding: 20px 0 40px 0;
 }
 
 .table-container {
@@ -1419,16 +1400,16 @@ export default {
 
 /* Chart Section */
 .chart-section {
-  padding: 40px 0;
+  padding: 20px 0;
 }
 
 .chart-container {
-  padding: 24px;
+  padding: 16px;
 }
 
 .chart-header {
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 .chart-header h2 {
@@ -1452,37 +1433,39 @@ export default {
 }
 
 .chart {
-  min-height: 500px;
+  min-height: 350px;
   position: relative;
 }
 
 /* Content Blocks Section */
 .content-blocks-section {
-  padding: 40px 0;
+  padding: 20px 0;
   background: #f8f9fa;
 }
 
 .content-blocks-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
+  gap: 16px;
   max-width: 900px;
   margin: 0 auto;
 }
 
 .content-block {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  text-align: center;
-  padding: 28px 20px;
+  text-align: left;
+  padding: 16px;
   background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
   border: 1px solid #e5e7eb;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  text-decoration: none;
+  color: inherit;
 }
 
 .content-block::before {
@@ -1507,16 +1490,17 @@ export default {
 }
 
 .content-icon {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 20px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  font-size: 20px;
   color: white;
-  margin-bottom: 16px;
+  margin-right: 16px;
+  flex-shrink: 0;
   transition: all 0.3s ease;
 }
 
@@ -1529,93 +1513,58 @@ export default {
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
+  align-items: flex-start;
+  justify-content: center;
 }
 
 .content-text h3 {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 700;
   color: #333;
-  margin: 0 0 16px 0;
+  margin: 0 0 8px 0;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.content-main {
-  text-align: center;
-  margin-bottom: 24px;
-}
 
 .content-text p {
   color: #666;
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: 0.9rem;
+  line-height: 1.4;
   margin: 0;
-  max-width: 280px;
 }
 
-.content-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: #667eea;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 14px;
-  padding: 12px 24px;
-  border: 2px solid #667eea;
-  border-radius: 25px;
-  transition: all 0.3s ease;
-  background: transparent;
-}
-
-.content-link:hover {
-  background: #667eea;
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
-}
-
-.content-link i {
-  font-size: 12px;
-  transition: transform 0.3s ease;
-}
-
-.content-link:hover i {
-  transform: translateX(4px);
-}
 
 /* Statistics Section */
 .statistics-section {
-  padding: 80px 0;
+  padding: 40px 0;
   background: #f8f9fa;
 }
 
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 24px;
+  gap: 16px;
 }
 
 .stat-card {
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 24px;
+  gap: 16px;
+  padding: 16px;
 }
 
 .stat-icon {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 12px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  font-size: 20px;
   color: white;
   flex-shrink: 0;
 }
@@ -1625,7 +1574,7 @@ export default {
 }
 
 .stat-number {
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: #333;
   margin-bottom: 4px;
@@ -1687,7 +1636,7 @@ export default {
 
   .leaderboard-table th,
   .leaderboard-table td {
-    padding: 12px 8px;
+    padding: 12px8px;
     font-size: 14px;
   }
 
@@ -1731,28 +1680,29 @@ export default {
   }
 
   .content-block {
-    padding: 24px 16px;
+    padding: 16px;
+    flex-direction: column;
+    text-align: center;
   }
 
   .content-icon {
-    width: 50px;
-    height: 50px;
-    font-size: 20px;
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
+    margin-right: 0;
     margin-bottom: 12px;
   }
 
+  .content-text {
+    align-items: center;
+  }
+
   .content-text h3 {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
 
   .content-text p {
-    font-size: 0.9rem;
-    max-width: 100%;
-  }
-
-  .content-link {
-    padding: 10px 20px;
-    font-size: 13px;
+    font-size: 0.85rem;
   }
 }
 </style>
