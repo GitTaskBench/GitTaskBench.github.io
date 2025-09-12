@@ -8,8 +8,8 @@
             <span>GitTaskBench</span>
           </div>
           <p class="footer-description">
-            A comprehensive benchmark for evaluating AI code generation capabilities across diverse real-world
-            programming tasks.
+            A comprehensive benchmark for systematically evaluating LLM agents' ability to leverage open-source
+            repositories to solve complex, real-world tasks.
           </p>
         </div>
 
@@ -18,16 +18,14 @@
           <ul>
             <li><a href="https://quantaalpha.com/" target="_blank">Home</a></li>
             <li><router-link to="/leaderboard">LeaderBoard</router-link></li>
-            <li><a href="https://github.com/QuantaAlpha/GitTaskBench" target="_blank">GitHub</a></li>
           </ul>
         </div>
 
         <div class="footer-section">
           <h3>Resources</h3>
           <ul>
-            <li><a href="#" target="_blank">Documentation</a></li>
+            <li><a href="https://github.com/QuantaAlpha/GitTaskBench" target="_blank">GitHub</a></li>
             <li><a href="https://arxiv.org/pdf/2508.18993" target="_blank">Paper</a></li>
-            <li><a href="https://huggingface.co/datasets/Nicole-Yi/GitTaskBench" target="_blank">Dataset</a></li>
           </ul>
         </div>
 
@@ -37,11 +35,8 @@
             <a href="https://github.com/QuantaAlpha/GitTaskBench" target="_blank" title="GitHub">
               <i class="fab fa-github"></i>
             </a>
-            <a href="mailto:quantaalpha.ai@gmail.com" target="_blank" title="Email">
-              <i class="fas fa-envelope"></i>
-            </a>
-            <a href="#" target="_blank" title="Twitter">
-              <i class="fab fa-twitter"></i>
+            <a href="https://quantaalpha.com/" target="_blank" title="QuantaAlpha">
+              <img src="@/assets/logos/qa-base.png" alt="QuantaAlpha" style="width: 20px; height: 20px;">
             </a>
           </div>
         </div>

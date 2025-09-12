@@ -44,7 +44,7 @@
           </a>
 
           <!-- Submit Model Block -->
-          <a href="#" class="content-block card">
+          <a href="#" class="content-block card" @click.prevent="scrollToSubmit">
             <div class="content-icon">
               <i class="fas fa-upload"></i>
             </div>
@@ -64,6 +64,14 @@
           <div class="chart-header">
           </div>
           <div class="chart-wrapper">
+            <div class="chart-toggle">
+              <button class="toggle-btn" :class="{ active: currentChartType === 'tpr' }" @click="switchChart('tpr')">
+                TPR
+              </button>
+              <button class="toggle-btn" :class="{ active: currentChartType === 'ecr' }" @click="switchChart('ecr')">
+                ECR
+              </button>
+            </div>
             <div ref="chartContainer" class="chart" style="width: 100%; height: 350px;"></div>
           </div>
         </div>
@@ -233,8 +241,8 @@
                     <span class="date-value">{{ model.commitDate }}</span>
                   </td>
                   <td class="site-col">
-                    <a :href="getFrameworkSiteUrl(model.framework)" target="_blank" rel="noopener noreferrer" class="site-link"
-                      :title="'Visit ' + model.framework + ' Site'">
+                    <a :href="getFrameworkSiteUrl(model.framework)" target="_blank" rel="noopener noreferrer"
+                      class="site-link" :title="'Visit ' + model.framework + ' Site'">
                       <i class="fas fa-external-link-alt"></i>
                     </a>
                   </td>
@@ -300,6 +308,102 @@
         </div>
       </div>
     </section>
+
+    <!-- How to Submit Section -->
+    <section id="how-to-submit" class="how-to-submit-section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            How to Submit
+          </h2>
+        </div>
+        <div class="submit-steps">
+          <div class="step-item">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h3>Fork and Add Files</h3>
+              <p>Fork this repository, add files to <code>data/submissions/</code>, one JSON file per submission (see
+                <a href="https://nicole-yi.github.io/GitTaskBench-Leaderboard/schema/submission.schema.json"
+                  target="_blank" rel="noopener noreferrer">schema</a> and examples).
+              </p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h3>Include Evaluation Details</h3>
+              <p>Include in PR: evaluation configuration (commands/iterations/model versions, etc.), key logs and result
+                files (can link to public gist or repo).</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h3>Automated Deployment</h3>
+              <p>After automated validation, merging will trigger GitHub Pages deployment, automatically updating the
+                leaderboard.</p>
+            </div>
+          </div>
+        </div>
+        <div class="submit-note">
+          <div class="note-icon">
+            <i class="fas fa-info-circle"></i>
+          </div>
+          <div class="note-content">
+            <p><strong>Note:</strong> Metrics and evaluation scripts should be consistent with the official
+              <a href="https://github.com/QuantaAlpha/GitTaskBench" target="_blank"
+                rel="noopener noreferrer">GitTaskBench</a>. Include reproduction scripts and commit hashes if necessary.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            FAQ
+          </h2>
+        </div>
+        <div class="faq-list">
+          <div class="faq-item">
+            <div class="faq-question" @click="toggleFaq(0)">
+              <h3>How is the α score calculated?</h3>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              <p>α is an optional cost-effectiveness composite score that balances performance and cost, representing
+                the average across all domains. If not provided, it displays as "—". Refer to the paper/official
+                implementation for the formula.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" @click="toggleFaq(1)">
+              <h3>Can I submit results for only specific domains?</h3>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              <p>No. Overall scores are evaluated. The leaderboard is sorted by Task Pass by default (if equal, then by
+                Execution Completion).</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" @click="toggleFaq(2)">
+              <h3>Does it support automatic scraping of GitTaskBench result directories?</h3>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              <p>We recommend submitting aggregated results via PR. For automatic scraping, you can add scripts in
+                Actions to pull test_results from public storage, aggregate them, and generate JSON.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
   </div>
 </template>
 
@@ -331,6 +435,7 @@ export default {
       lastUpdated: '2024-01-15',
       chartInstance: null,
       activeDropdown: null,
+      currentChartType: 'tpr', // 当前图表类型：'tpr' 或 'ecr'
 
       domains: [
         'Machine Learning',
@@ -438,6 +543,7 @@ export default {
       return {
         categories: sortedData.map(item => `${item.Framework}+${item.LLM}`),
         tprValues: sortedData.map(item => item.TPR),
+        ecrValues: sortedData.map(item => item.ECR),
         fullData: sortedData
       }
     },
@@ -491,6 +597,13 @@ export default {
 
     frameworks() {
       return [...new Set(this.csvData.map(item => item.Framework))]
+    },
+
+    // 当前图表标题
+    currentChartTitle() {
+      return this.currentChartType === 'tpr'
+        ? 'Task Pass Rate Performance Comparison'
+        : 'Execution Completion Rate Performance Comparison'
     }
   },
 
@@ -531,7 +644,7 @@ export default {
 
       const option = {
         title: {
-          text: 'Task pass rate performance comparison',
+          text: this.currentChartTitle,
           left: 'center',
           textStyle: {
             fontSize: 18,
@@ -607,7 +720,7 @@ export default {
         },
         yAxis: {
           type: 'value',
-          name: 'TPR (%)',
+          name: this.currentChartType === 'tpr' ? 'TPR (%)' : 'ECR (%)',
           nameLocation: 'middle',
           nameGap: 50,
           nameTextStyle: {
@@ -630,9 +743,9 @@ export default {
           }
         },
         series: [{
-          name: 'TPR',
+          name: this.currentChartType === 'tpr' ? 'TPR' : 'ECR',
           type: 'bar',
-          data: this.chartData.tprValues.map((value, index) => {
+          data: (this.currentChartType === 'tpr' ? this.chartData.tprValues : this.chartData.ecrValues).map((value, index) => {
             const framework = this.chartData.fullData[index].Framework
             const baseColor = this.getFrameworkColor(framework)
             return {
@@ -687,8 +800,11 @@ export default {
           const logo = this.frameworkLogos[item.Framework]
           if (!logo) return
 
+          // 根据当前图表类型获取正确的数值
+          const value = this.currentChartType === 'tpr' ? item.TPR : item.ECR
+
           // 使用ECharts的坐标转换获取柱子的实际位置
-          const pixelPos = convertToPixel('grid', [index, item.TPR])
+          const pixelPos = convertToPixel('grid', [index, value])
           if (!pixelPos) return
 
           // 创建图标元素
@@ -829,6 +945,53 @@ export default {
       // 检查点击是否在dropdown内部
       if (!event.target.closest('.custom-dropdown')) {
         this.activeDropdown = null
+      }
+    },
+
+    // 切换图表类型
+    switchChart(type) {
+      this.currentChartType = type
+      this.updateChart()
+      // 延迟刷新图表以确保图标正确显示
+      this.$nextTick(() => {
+        // 先清除所有现有图标
+        const chartContainer = this.$refs.chartContainer
+        if (chartContainer) {
+          const existingIcons = chartContainer.querySelectorAll('.framework-icon')
+          existingIcons.forEach(icon => icon.remove())
+        }
+        // 然后重新添加图标
+        this.addFrameworkIcons()
+      })
+    },
+
+    // FAQ 交互方法
+    toggleFaq(index) {
+      const faqItems = document.querySelectorAll('.faq-item')
+      const currentItem = faqItems[index]
+
+      // 关闭其他所有FAQ项
+      faqItems.forEach((item, i) => {
+        if (i !== index) {
+          item.classList.remove('active')
+        }
+      })
+
+      // 切换当前FAQ项
+      currentItem.classList.toggle('active')
+    },
+
+    // 滚动到提交说明部分
+    scrollToSubmit() {
+      const element = document.getElementById('how-to-submit')
+      if (element) {
+        const elementPosition = element.offsetTop
+        const offsetPosition = elementPosition - 80 // 减去80px，给导航栏留出空间
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        })
       }
     }
   },
@@ -1421,8 +1584,12 @@ export default {
 }
 
 .chart-header {
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .chart-header h2 {
@@ -1438,11 +1605,57 @@ export default {
   margin: 0;
 }
 
+/* 图表切换按钮样式 */
+.chart-toggle {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 4px;
+  border: 1px solid #e9ecef;
+  z-index: 10;
+}
+
+.toggle-btn {
+  background: transparent;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #6c757d;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 50px;
+  text-align: center;
+}
+
+.toggle-btn:hover {
+  color: #495057;
+  background: rgba(108, 117, 125, 0.1);
+}
+
+.toggle-btn.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  transform: translateY(-1px);
+}
+
+.toggle-btn.active:hover {
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
 .chart-wrapper {
   background: #fff;
   border-radius: 8px;
   padding: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 .chart {
@@ -1716,6 +1929,285 @@ export default {
 
   .content-text p {
     font-size: 0.85rem;
+  }
+
+  .chart-toggle {
+    top: 12px;
+    right: 12px;
+  }
+
+  .toggle-btn {
+    padding: 5px 10px;
+    font-size: 11px;
+    min-width: 45px;
+  }
+}
+
+/* How to Submit Section */
+.how-to-submit-section {
+  padding: 20px 0;
+  background: #ffffff;
+}
+
+.section-header {
+  text-align: left;
+  margin-bottom: 20px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.submit-steps {
+  max-width: 600px;
+  margin: 0 auto 15px;
+}
+
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 4px;
+  border-left: 2px solid #667eea;
+  transition: all 0.3s ease;
+}
+
+.step-item:hover {
+  background: #ffffff;
+}
+
+.step-number {
+  width: 20px;
+  height: 20px;
+  background: #667eea;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.7rem;
+  flex-shrink: 0;
+}
+
+.step-content h3 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 4px 0;
+}
+
+.step-content p {
+  color: #666;
+  line-height: 1.3;
+  margin: 0;
+  font-size: 0.8rem;
+}
+
+.step-content code {
+  background: #e9ecef;
+  padding: 1px 3px;
+  border-radius: 2px;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.7em;
+  color: #d63384;
+}
+
+.step-content a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.step-content a:hover {
+  color: #5a6fd8;
+  text-decoration: underline;
+  text-decoration-color: #667eea;
+  text-underline-offset: 2px;
+}
+
+.note-content a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.note-content a:hover {
+  color: #5a6fd8;
+  text-decoration: underline;
+  text-decoration-color: #667eea;
+  text-underline-offset: 2px;
+}
+
+.submit-note {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 8px 10px;
+  background: #f8f9fa;
+  border-radius: 4px;
+  border: 1px solid #e9ecef;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.note-icon {
+  width: 14px;
+  height: 14px;
+  color: #6c757d;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.note-icon i {
+  font-size: 12px;
+}
+
+.note-content p {
+  margin: 0;
+  color: #666;
+  line-height: 1.3;
+  font-size: 0.8rem;
+}
+
+.note-content strong {
+  color: #495057;
+  font-weight: 600;
+}
+
+/* FAQ Section */
+.faq-section {
+  padding: 20px 0;
+  background: #f8f9fa;
+}
+
+.faq-list {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  background: #ffffff;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+.faq-question {
+  padding: 12px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.faq-question:hover {
+  background: #f8f9fa;
+}
+
+.faq-question h3 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  flex: 1;
+}
+
+.faq-question i {
+  color: #667eea;
+  font-size: 12px;
+  transition: transform 0.3s ease;
+}
+
+.faq-item.active .faq-question i {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  padding: 0 12px 12px;
+  color: #666;
+  line-height: 1.4;
+  display: none;
+  font-size: 0.85rem;
+}
+
+.faq-item.active .faq-answer {
+  display: block;
+}
+
+.faq-answer p {
+  margin: 0;
+}
+
+/* Responsive Design for New Sections */
+@media (max-width: 768px) {
+  .how-to-submit-section {
+    padding: 15px 0;
+  }
+
+  .faq-section {
+    padding: 15px 0;
+  }
+
+  .section-header {
+    margin-bottom: 15px;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+  }
+
+  .step-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .step-number {
+    align-self: center;
+    width: 18px;
+    height: 18px;
+    font-size: 0.65rem;
+  }
+
+  .submit-note {
+    flex-direction: column;
+    text-align: center;
+    gap: 4px;
+    padding: 6px 8px;
+  }
+
+  .faq-question {
+    padding: 10px;
+  }
+
+  .faq-question h3 {
+    font-size: 0.85rem;
+  }
+
+  .faq-answer {
+    padding: 0 10px 10px;
   }
 }
 </style>

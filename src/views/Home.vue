@@ -10,8 +10,8 @@
             AI Code Generation Benchmark
           </h1>
           <p class="hero-description">
-            A comprehensive benchmark for evaluating AI code generation capabilities across diverse real-world
-            programming tasks from GitHub repositories.
+            A comprehensive benchmark for systematically evaluating LLM agents' ability to leverage open-source
+            repositories to solve complex, real-world tasks.
           </p>
           <div class="hero-buttons">
             <router-link to="/leaderboard" class="btn btn-primary">
@@ -67,8 +67,9 @@
               <i class="fas fa-code-branch"></i>
             </div>
             <h3>Real-world Tasks</h3>
-            <p>Curated from actual GitHub repositories, ensuring practical relevance and diversity in programming
-              challenges.</p>
+            <p>Curated from actual GitHub repositories and realistic daily life, ensuring practical relevance and
+              diversity in programming challenges. Each domain reflects real-world applications and research challenges.
+            </p>
           </div>
 
           <div class="feature-card card fade-in-up">
@@ -76,7 +77,8 @@
               <i class="fas fa-chart-line"></i>
             </div>
             <h3>Multi-domain Coverage</h3>
-            <p>Spans across 18 different domains including ML, web development, data processing, and system utilities.
+            <p>Spans across 7 different domains including image, video, speech, physiological signals processing,
+              security development, document processing, and web scraping.
             </p>
           </div>
 
@@ -93,7 +95,7 @@
               <i class="fas fa-database"></i>
             </div>
             <h3>Rich Dataset</h3>
-            <p>Over 164 carefully selected tasks with ground truth implementations and comprehensive test suites.</p>
+            <p>Over 54 carefully selected tasks with ground truth implementations and comprehensive test suites.</p>
           </div>
 
           <div class="feature-card card fade-in-up">
@@ -101,7 +103,8 @@
               <i class="fas fa-cogs"></i>
             </div>
             <h3>Easy Integration</h3>
-            <p>Simple API and CLI tools for seamless integration with existing AI model evaluation pipelines.</p>
+            <p>It can be directly integrated with state-of-the-art agent frameworks and models, equipped with detailed
+              guidance, and provides a one-stop solution for batch task execution.</p>
           </div>
 
           <div class="feature-card card fade-in-up">
@@ -120,15 +123,15 @@
       <div class="container">
         <div class="stats-grid">
           <div class="stat-item card">
-            <div class="stat-number">164+</div>
+            <div class="stat-number">54+</div>
             <div class="stat-label">Benchmark Tasks</div>
           </div>
           <div class="stat-item card">
-            <div class="stat-number">18</div>
+            <div class="stat-number">7</div>
             <div class="stat-label">Domains Covered</div>
           </div>
           <div class="stat-item card">
-            <div class="stat-number">50+</div>
+            <div class="stat-number">18+</div>
             <div class="stat-label">GitHub Repositories</div>
           </div>
           <div class="stat-item card">
@@ -168,8 +171,9 @@
             <div class="step-content">
               <h3>Run Evaluation</h3>
               <div class="code-snippet">
-                <code>gittaskbench evaluate --model your_model</code>
-                <button class="copy-btn" @click="copyToClipboard('gittaskbench evaluate --model your_model')">
+                <code>gittaskbench [-v] grade --taskid &lt;taskid&gt; [--output_dir &lt;output_dir&gt;] [--result &lt;result&gt;]</code>
+                <button class="copy-btn"
+                  @click="copyToClipboard('gittaskbench [-v] grade --taskid <taskid> [--output_dir <output_dir>] [--result <result>]')">
                   <i class="fas fa-copy"></i>
                 </button>
               </div>
@@ -181,8 +185,8 @@
             <div class="step-content">
               <h3>View Results</h3>
               <div class="code-snippet">
-                <code>gittaskbench results --format json</code>
-                <button class="copy-btn" @click="copyToClipboard('gittaskbench results --format json')">
+                <code>gittaskbench eval  [--result &lt;result&gt;]</code>
+                <button class="copy-btn" @click="copyToClipboard('gittaskbench eval  [--result <result>]')">
                   <i class="fas fa-copy"></i>
                 </button>
               </div>
