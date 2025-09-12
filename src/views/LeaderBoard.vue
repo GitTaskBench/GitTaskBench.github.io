@@ -513,6 +513,17 @@ export default {
       return openSourceModels.some(model => llm.includes(model)) ? 'open-source' : 'proprietary'
     },
 
+    // 根据框架类型获取对应的基础色
+    getFrameworkColor(framework) {
+      const frameworkColors = {
+        'Aider': '#4CAF50',        // 亮绿 - 对应Aider图标
+        'SWE-Agent': '#6C757D',    // 高级灰 - 对应SWE-Agent图标
+        'OpenHands': '#D4A574',    // 高级金 - 对应OpenHands图标
+        'RepoMaster': '#4A6FA5'    // 高级深蓝 - 对应RepoMaster图标
+      }
+      return frameworkColors[framework] || '#8B9DC3' // 默认柔和蓝
+    },
+
     // 初始化图表
     initChart() {
       if (!this.$refs.chartContainer) return
@@ -628,25 +639,26 @@ export default {
         series: [{
           name: 'TPR',
           type: 'bar',
-          data: this.chartData.tprValues.map((value) => ({
-            value: value,
-            itemStyle: {
-              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                { offset: 0, color: '#667eea' },
-                { offset: 1, color: '#764ba2' }
-              ]),
-              borderRadius: [4, 4, 0, 0]
+          data: this.chartData.tprValues.map((value, index) => {
+            const framework = this.chartData.fullData[index].Framework
+            const baseColor = this.getFrameworkColor(framework)
+            return {
+              value: value,
+              itemStyle: {
+                color: baseColor,
+                borderRadius: [4, 4, 0, 0]
+              }
             }
-          })),
+          }),
           label: {
             show: false
           },
           emphasis: {
             itemStyle: {
-              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                { offset: 0, color: '#5a6fd8' },
-                { offset: 1, color: '#6a4190' }
-              ])
+              color: (params) => {
+                const framework = this.chartData.fullData[params.dataIndex].Framework
+                return this.getFrameworkColor(framework)
+              }
             }
           },
         }],
@@ -691,10 +703,10 @@ export default {
           iconElement.className = 'framework-icon'
           iconElement.style.cssText = `
             position: absolute;
-            top: ${pixelPos[1] - 30}px;
-            left: ${pixelPos[0] - 12}px;
-            width: 24px;
-            height: 24px;
+            top: ${pixelPos[1] - 20}px;
+            left: ${pixelPos[0] - 8}px;
+            width: 16px;
+            height: 16px;
             background-image: url(${logo});
             background-size: contain;
             background-repeat: no-repeat;
