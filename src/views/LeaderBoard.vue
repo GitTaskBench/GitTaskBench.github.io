@@ -291,8 +291,8 @@
               <i class="fas fa-chart-line"></i>
             </div>
             <div class="stat-content">
-              <div class="stat-number">{{ averageECR.toFixed(1) }}%</div>
-              <div class="stat-label">Average ECR</div>
+              <div class="stat-number">{{ averageTPR.toFixed(1) }}%</div>
+              <div class="stat-label">Average TPR</div>
             </div>
           </div>
 
@@ -301,8 +301,8 @@
               <i class="fas fa-crown"></i>
             </div>
             <div class="stat-content">
-              <div class="stat-number">{{ topECR.toFixed(1) }}%</div>
-              <div class="stat-label">Highest ECR</div>
+              <div class="stat-number">{{ topTPR.toFixed(1) }}%</div>
+              <div class="stat-label">Highest TPR</div>
             </div>
           </div>
         </div>
@@ -375,8 +375,9 @@
             </div>
             <div class="faq-answer">
               <p>α is an optional cost-effectiveness composite score that balances performance and cost, representing
-                the average across all domains. If not provided, it displays as "—". Refer to the paper/official
-                implementation for the formula.</p>
+                the practical value within specific domains. Since this leaderboard aggregates results across all
+                domains and tasks, this particular metric is not displayed. For the detailed calculation and formula,
+                please refer to the official implementation in the paper. </p>
             </div>
           </div>
           <div class="faq-item">
@@ -397,6 +398,16 @@
             <div class="faq-answer">
               <p>We recommend submitting aggregated results via PR. For automatic scraping, you can add scripts in
                 Actions to pull test_results from public storage, aggregate them, and generate JSON.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" @click="toggleFaq(3)">
+              <h3>What do ECR and TPR represent?</h3>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              <p>Execution Completion (whether valid results are produced)</p>
+              <p>Task Pass (whether task-specific evaluation criteria are met)</p>
             </div>
           </div>
         </div>
@@ -584,15 +595,15 @@ export default {
       return 54
     },
 
-    averageECR() {
-      const validECRs = this.tableData.filter(model => !isNaN(model.ecr))
-      const sum = validECRs.reduce((acc, model) => acc + model.ecr, 0)
-      return sum / validECRs.length
+    averageTPR() {
+      const validTPRs = this.tableData.filter(model => !isNaN(model.tpr))
+      const sum = validTPRs.reduce((acc, model) => acc + model.tpr, 0)
+      return sum / validTPRs.length
     },
 
-    topECR() {
-      const validECRs = this.tableData.filter(model => !isNaN(model.ecr))
-      return Math.max(...validECRs.map(model => model.ecr))
+    topTPR() {
+      const validTPRs = this.tableData.filter(model => !isNaN(model.tpr))
+      return Math.max(...validTPRs.map(model => model.tpr))
     },
 
     frameworks() {
@@ -761,10 +772,7 @@ export default {
           },
           emphasis: {
             itemStyle: {
-              color: (params) => {
-                const framework = this.chartData.fullData[params.dataIndex].Framework
-                return this.getFrameworkColor(framework)
-              }
+              color: '#764ba2'
             }
           },
         }],
@@ -2146,6 +2154,7 @@ export default {
   line-height: 1.4;
   display: none;
   font-size: 0.85rem;
+  margin-top: 10px;
 }
 
 .faq-item.active .faq-answer {

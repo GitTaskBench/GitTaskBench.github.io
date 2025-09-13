@@ -8,8 +8,8 @@
             <span>GitTaskBench</span>
           </div>
           <p class="footer-description">
-            A comprehensive benchmark for systematically evaluating LLM agents' ability to leverage open-source
-            repositories to solve complex, real-world tasks.
+            GitTaskBench evaluates agents' ability to complete complex tasks using real GitHub repositories: from
+            repository understanding → environment setup → iterative development/fixing → task delivery.
           </p>
         </div>
 
