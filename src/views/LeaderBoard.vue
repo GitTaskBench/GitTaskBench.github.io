@@ -581,7 +581,7 @@ export default {
     },
 
     totalTasks() {
-      return 164
+      return 54
     },
 
     averageECR() {

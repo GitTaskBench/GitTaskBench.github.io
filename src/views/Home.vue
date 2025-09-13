@@ -7,7 +7,7 @@
           <h1 class="hero-title">
             <span class="gradient-text">GitTaskBench</span>
             <br>
-            AI Code Generation Benchmark
+            Real-World Code Agent Benchmark
           </h1>
           <p class="hero-description">
             A comprehensive benchmark for systematically evaluating LLM agents' ability to leverage open-source
@@ -57,7 +57,7 @@
         <div class="section-header">
           <h2 class="section-title">Why GitTaskBench?</h2>
           <p class="section-description">
-            Comprehensive evaluation framework for AI code generation models
+            Comprehensive framework for evaluating Code Agents on real-world repository-level tasks
           </p>
         </div>
 

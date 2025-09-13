@@ -1,6 +1,6 @@
 # GitTaskBench Frontend
 
-A Vue.js 3 frontend application for the GitTaskBench project - a comprehensive benchmark for evaluating AI code generation capabilities.
+A Vue.js 3 frontend application for the GitTaskBench project - a comprehensive benchmark for evaluating AI code processing capabilities.
 
 ## Features
 
