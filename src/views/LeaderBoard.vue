@@ -322,8 +322,8 @@
             <div class="step-number">1</div>
             <div class="step-content">
               <h3>Fork and Add Files</h3>
-              <p>Fork this repository, add files to <code>data/submissions/</code>, one JSON file per submission (see
-                <a href="https://nicole-yi.github.io/GitTaskBench-Leaderboard/schema/submission.schema.json"
+              <p>Fork this repository, add files to <code>src/submissions/</code>, one JSON file per submission (see
+                <a href="https://github.com/GitTaskBench/GitTaskBench.github.io/blob/main/src/submissions/schema.json"
                   target="_blank" rel="noopener noreferrer">schema</a> and examples).
               </p>
             </div>
@@ -390,7 +390,7 @@
                 Execution Completion).</p>
             </div>
           </div>
-          <div class="faq-item">
+          <!-- <div class="faq-item">
             <div class="faq-question" @click="toggleFaq(2)">
               <h3>Does it support automatic scraping of GitTaskBench result directories?</h3>
               <i class="fas fa-chevron-down"></i>
@@ -399,9 +399,9 @@
               <p>We recommend submitting aggregated results via PR. For automatic scraping, you can add scripts in
                 Actions to pull test_results from public storage, aggregate them, and generate JSON.</p>
             </div>
-          </div>
+          </div> -->
           <div class="faq-item">
-            <div class="faq-question" @click="toggleFaq(3)">
+            <div class="faq-question" @click="toggleFaq(2)">
               <h3>What do ECR and TPR represent?</h3>
               <i class="fas fa-chevron-down"></i>
             </div>
@@ -547,9 +547,17 @@ export default {
       }))
     },
 
-    // 图表数据 - 按TPR排序（从低到高）
+    // 图表数据 - 按TPR排序（从低到高），如果TPR相等则按ECR排序
     chartData() {
-      const sortedData = [...this.csvData].sort((a, b) => a.TPR - b.TPR)
+      const sortedData = [...this.csvData].sort((a, b) => {
+        // Primary sort by TPR
+        const tprComparison = a.TPR - b.TPR
+        // If TPR values are equal, sort by ECR
+        if (tprComparison === 0) {
+          return a.ECR - b.ECR
+        }
+        return tprComparison
+      })
 
       return {
         categories: sortedData.map(item => `${item.Framework}+${item.LLM}`),
@@ -572,16 +580,34 @@ export default {
         results = results.filter(model => model.type === this.selectedModelType)
       }
 
-      // Sort results
+      // Sort results with secondary sorting
       results.sort((a, b) => {
-        const aVal = a[this.sortColumn]
-        const bVal = b[this.sortColumn]
+        const primaryColumn = this.sortColumn
+        const secondaryColumn = primaryColumn === 'tpr' ? 'ecr' : 'tpr'
 
+        const aPrimaryVal = a[primaryColumn]
+        const bPrimaryVal = b[primaryColumn]
+        const aSecondaryVal = a[secondaryColumn]
+        const bSecondaryVal = b[secondaryColumn]
+
+        // Primary sort
+        let primaryComparison = 0
         if (this.sortDirection === 'desc') {
-          return bVal - aVal
+          primaryComparison = bPrimaryVal - aPrimaryVal
         } else {
-          return aVal - bVal
+          primaryComparison = aPrimaryVal - bPrimaryVal
         }
+
+        // If primary values are equal, use secondary sort
+        if (primaryComparison === 0) {
+          if (this.sortDirection === 'desc') {
+            return bSecondaryVal - aSecondaryVal
+          } else {
+            return aSecondaryVal - bSecondaryVal
+          }
+        }
+
+        return primaryComparison
       })
 
       return results
