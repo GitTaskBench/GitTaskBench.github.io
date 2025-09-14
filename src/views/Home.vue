@@ -14,7 +14,11 @@
             repositories to solve complex, real-world tasks.
           </p>
           <div class="hero-buttons">
-            <router-link to="/leaderboard" class="btn btn-primary">
+            <router-link to="/report" class="btn btn-primary">
+              <i class="fas fa-file-alt"></i>
+              View Report
+            </router-link>
+            <router-link to="/leaderboard" class="btn btn-secondary">
               <i class="fas fa-trophy"></i>
               View LeaderBoard
             </router-link>
@@ -279,6 +283,7 @@ export default {
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .hero-visual {
@@ -339,7 +344,7 @@ export default {
 
 .code-content {
   padding: 20px;
-  font-family: 'Fira Code', 'Courier New', monospace;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-size: 14px;
   line-height: 1.6;
 }
@@ -519,7 +524,7 @@ export default {
 }
 
 .code-snippet code {
-  font-family: 'Fira Code', 'Courier New', monospace;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
   color: #6f42c1;
   font-size: 14px;
 }

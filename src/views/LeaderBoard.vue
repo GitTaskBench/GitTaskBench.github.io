@@ -322,30 +322,39 @@
             <div class="step-number">1</div>
             <div class="step-content">
               <h3>Fork and Add Files</h3>
-              <p>Fork this repository, add files to <code>src/submissions/</code>, one JSON file per submission (see
-                <a href="https://github.com/GitTaskBench/GitTaskBench.github.io/blob/main/src/submissions/schema.json"
-                  target="_blank" rel="noopener noreferrer">schema</a> and examples).
-              </p>
+              <p>Fork <a href="https://github.com/QuantaAlpha/GitTaskBench" target="_blank" rel="noopener noreferrer">GitTaskBench repository</a> and add your final results obtained on GitTaskBench to <code>src/submissions/</code>, with one JSON file per submission (see <a href="https://github.com/GitTaskBench/GitTaskBench.github.io/blob/main/src/submissions/schema.json" target="_blank" rel="noopener noreferrer">schema</a> and examples). The JSON file specifies all required attribute categories to be filled in.</p>
             </div>
           </div>
           <div class="step-item">
             <div class="step-number">2</div>
             <div class="step-content">
               <h3>Include Evaluation Details</h3>
-              <p>Include in PR: evaluation configuration (commands/iterations/model versions, etc.), key logs and result
-                files (can link to public gist or repo).</p>
+              <p>In your PR, include evaluation configuration details (framework, model, hyperparameters, versions, etc.), along with key logs and result files (you may link to a public gist or repository).</p>
             </div>
           </div>
           <div class="step-item">
             <div class="step-number">3</div>
             <div class="step-content">
-              <h3>Automated Deployment</h3>
-              <p>After automated validation, merging will trigger GitHub Pages deployment, automatically updating the
-                leaderboard.</p>
+              <h3>Manual Review</h3>
+              <p>After passing our manual review (to ensure validity), we will merge the results and update the leaderboard accordingly.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h3>Leaderboard Updates</h3>
+              <p>If new benchmark results are submitted, the leaderboard will be updated on a weekly basis.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-number">5</div>
+            <div class="step-content">
+              <h3>Contact</h3>
+              <p>If you have any questions, please feel free to contact us at: <a href="mailto:quantaalpha.ai@gmail.com">quantaalpha.ai@gmail.com</a></p>
             </div>
           </div>
         </div>
-        <div class="submit-note">
+        <!-- <div class="submit-note">
           <div class="note-icon">
             <i class="fas fa-info-circle"></i>
           </div>
@@ -355,7 +364,7 @@
                 rel="noopener noreferrer">GitTaskBench</a>. Include reproduction scripts and commit hashes if necessary.
             </p>
           </div>
-        </div>
+        </div> -->
       </div>
     </section>
 

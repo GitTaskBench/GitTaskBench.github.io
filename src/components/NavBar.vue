@@ -13,6 +13,10 @@
           <i class="fas fa-home"></i>
           <span>Home</span>
         </router-link>
+        <router-link to="/report" class="nav-link" @click="closeMenu">
+          <i class="fas fa-file-alt"></i>
+          <span>Report</span>
+        </router-link>
         <router-link to="/leaderboard" class="nav-link" @click="closeMenu">
           <i class="fas fa-trophy"></i>
           <span>LeaderBoard</span>
@@ -112,7 +116,8 @@ export default {
   gap: 8px;
   text-decoration: none;
   color: #666;
-  font-weight: 500;
+  font-weight: 700;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   padding: 8px 16px;
   border-radius: 8px;
   transition: all 0.3s ease;
