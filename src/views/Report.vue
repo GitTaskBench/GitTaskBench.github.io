@@ -145,8 +145,8 @@ export default {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         const elementTop = rect.top + scrollTop;
         
-        // 滚动到元素位置，留一点间距
-        const scrollPosition = elementTop - 20;
+        // 滚动到元素位置，考虑NavBar高度(70px)并留一些间距
+        const scrollPosition = elementTop - 90;
         
         window.scrollTo({
           top: Math.max(0, scrollPosition),
@@ -176,7 +176,7 @@ export default {
       
       const headings = this.$refs.reportBody.querySelectorAll('h3');
       let currentActive = '';
-      const headerHeight = 20; // 减少Header栏高度
+      const headerHeight = 70; // NavBar高度
       
       // 特殊处理：如果页面滚动到顶部，不显示任何高亮
       if (window.scrollY <= 50) {
